@@ -1,7 +1,5 @@
 package com.fullstacktodo.todoserver.request;
 
-import java.time.LocalDate;
-
 import lombok.Data;
 import lombok.ToString;
 
@@ -9,5 +7,5 @@ import lombok.ToString;
 @ToString
 public class TodoRequest {
     private String text;
-    private String status = "ON PROGRESS";
+    private String status;
 }

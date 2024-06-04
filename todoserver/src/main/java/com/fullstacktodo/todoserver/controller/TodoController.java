@@ -37,8 +37,8 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public void updateTodo(@PathVariable Long id){
-        todoService.updateTodo(id);
+    public void updateTodo(@PathVariable Long id, @RequestBody TodoRequest body){
+        todoService.updateTodo(id, body);
     }
 
     @DeleteMapping("/{id}")
@@ -50,6 +50,4 @@ public class TodoController {
     public List<TodoResponse> retrieveTodos(){
         return todoService.retrieveTodos();
     }
-
-
 }

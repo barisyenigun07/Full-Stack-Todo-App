@@ -1,6 +1,6 @@
 package com.fullstacktodo.todoserver.service;
 
-import java.time.LocalDate;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,7 +25,7 @@ public class TodoService {
     public void createTodo(TodoRequest body){
         Todo todo = new Todo();
         todo.setText(body.getText());
-        todo.setStatus(body.getStatus());
+        todo.setStatus("ON PROGRESS");
         todoRepository.save(todo);
     }
 
@@ -37,15 +37,14 @@ public class TodoService {
         return TodoResponse.fromEntity(optionalTodo.get());
     }
 
-    public void updateTodo(Long id){
+    public void updateTodo(Long id, TodoRequest body){
         Optional<Todo> optionalTodo = todoRepository.findById(id);
         if (!optionalTodo.isPresent()) {
             throw new TodoNotFoundException();
         }
         Todo todo = optionalTodo.get();
-        if (todo.getStatus().equals("ON PROGRESS")){
-            todo.setStatus("COMPLETED");
-        }
+        todo.setText(body.getText());
+        todo.setStatus(body.getStatus());
         todoRepository.save(todo);
     }
 
