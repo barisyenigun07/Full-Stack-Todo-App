@@ -1,17 +1,37 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Divider } from '@mui/material';
-import axios from 'axios';
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, Typography, Divider, Modal, Box } from '@mui/material';
 import React, {useEffect, useState } from 'react'
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { getTodos } from '../api/todo.api';
+import { deleteTodo, getTodos } from '../api/todo.api';
 
 function Todos() {
     const navigate = useNavigate();
     const [todos, setTodos] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedTodoId, setSelectedTodoId] = useState(null);
 
     const getTodosFromApi = async () => {
         const todosApi = await getTodos();
         setTodos(todosApi);
     }
+
+    const handleOpen = (id) => {
+        setSelectedTodoId(id);
+        setIsModalOpen(true);
+    }
+
+    const handleClose = () => {
+        setIsModalOpen(false);
+        setSelectedTodoId(null);
+    }
+
+    const handleDeleteTodo = async () => {
+        if (selectedTodoId !== null) {
+            await deleteTodo(selectedTodoId);
+            handleClose();
+            window.location.reload();
+        }
+    }
+
     useEffect(() => {
         getTodosFromApi();
     },[])
@@ -45,9 +65,9 @@ function Todos() {
                                     navigate(`/update/todo/${todo.id}`)
                                 }}>Update</Button></TableCell>
                                 <TableCell align='right'><Button variant='contained' color='error' onClick={(e) => {
-                                    axios.delete(`/todo/${todo.id}`);
-                                    window.location.reload();
+                                    handleOpen(todo?.id)
                                 }}>Delete</Button></TableCell>
+                                
                             </TableRow>
                         ))}
                     </TableBody>
@@ -55,6 +75,35 @@ function Todos() {
             </TableContainer>
             <Link id='add_todo' to="/post"><Button variant='contained'>Add Todo</Button></Link>
             <Outlet/>
+            <Modal
+                open={isModalOpen}
+                onClose={handleClose}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+            >
+                <Box sx={{
+                        position: 'absolute', 
+                        top: '50%', 
+                        left: '50%', 
+                        transform: 'translate(-50%, -50%)', 
+                        width: 400, 
+                        bgcolor: 'background.paper', 
+                        border: '2px solid #000', 
+                        boxShadow: 24, p: 4
+                }}>
+                    <Typography sx={{textAlign: "center"}} variant="h6" component="h2">
+                        Are you sure to delete this todo?
+                    </Typography>
+                    <Box sx={{mt: 2, display: "flex", justifyContent: "center", gap: 4}}>
+                        <Button variant="contained" color="error" onClick={handleDeleteTodo}>
+                            Yes
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={handleClose}>
+                            No
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
         </>
     )
 }
