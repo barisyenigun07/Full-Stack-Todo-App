@@ -36,17 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-a#add_todo{
-  position: absolute;
-  margin-top: 10px;
-  text-decoration: none;
-}
-a#go_to_main{
-  text-decoration: none;
-  margin: 10px;
-}
-button#post{
-  margin: 10px;
-}
-

@@ -73,7 +73,7 @@ function Todos() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Link id='add_todo' to="/post"><Button variant='contained'>Add Todo</Button></Link>
+            <Link style={{position: "absolute", marginTop: "10px", textDecoration: "none"}} to="/post"><Button variant='contained'>Add Todo</Button></Link>
             <Outlet/>
             <Modal
                 open={isModalOpen}
