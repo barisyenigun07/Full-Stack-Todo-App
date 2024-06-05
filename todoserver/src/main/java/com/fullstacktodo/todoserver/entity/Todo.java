@@ -1,13 +1,6 @@
 package com.fullstacktodo.todoserver.entity;
 
-
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +16,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Todo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "todo_seq")
+    @SequenceGenerator(name = "todo_seq", sequenceName = "todo_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
     @Column(name = "text")

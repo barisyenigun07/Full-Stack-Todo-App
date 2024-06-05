@@ -1,7 +1,5 @@
 package com.fullstacktodo.todoserver.response;
 
-import java.time.LocalDate;
-
 import com.fullstacktodo.todoserver.entity.Todo;
 
 import lombok.Builder;
